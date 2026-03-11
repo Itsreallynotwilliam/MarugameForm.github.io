@@ -669,9 +669,17 @@
         </div>
       </div>
 
-      <a href="https://docs.google.com/forms/d/1hvli9tZ4TfzYo-J9_1HTzQSVt4398kCfPhSok0YIxpo/viewform" target="_blank" style="text-decoration:none;">
-        <button class="submit-btn">Fill Out the Form →</button>
-      </a>
+      <div id="errorMsg" style="display:none; color:#f87171; font-size:0.82rem; font-family:var(--mono); margin-bottom:1rem;"></div>
+
+      <button class="submit-btn" onclick="submitForm()">Submit Response →</button>
+    </div>
+
+    <!-- Success -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🤖</div>
+      <h2>// Response Logged!</h2>
+      <p style="margin-bottom:0.5rem;">Thanks for filling out the form.</p>
+      <p>We'll send out the final date once we review everyone's availability. Let's make this fundraiser a success!</p>
     </div>
   </div>
 
@@ -683,10 +691,48 @@
     const email = document.getElementById('email').value.trim();
     const attendance = document.querySelector('input[name="attendance"]:checked');
     const errorMsg = document.getElementById('errorMsg');
+    const days = [...document.querySelectorAll('input[name="days"]:checked')].map(d => d.value);
 
     if (!name) { showError('Please enter your full name.'); return; }
     if (!email || !email.includes('@')) { showError('Please enter a valid email address.'); return; }
     if (!attendance) { showError('Please indicate if you can attend.'); return; }
+
+    // Build Google Form prefill URL and submit silently via hidden iframe
+    const formId = 'e/1FAIpQLSdV1iWIzYHgp3Li4bYxHbgdeiI9Qxu9jVx0lz8ukyEJXE3oVg';
+    const formUrl = `https://docs.google.com/forms/d/${formId}/formResponse`;
+
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = formUrl;
+    form.target = iframe.name = 'hidden_iframe';
+
+    const fields = {
+      'entry.263967029': name,
+      'entry.186981226': attendance.value,
+    };
+
+    days.forEach(day => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'entry.1547421715';
+      input.value = day;
+      form.appendChild(input);
+    });
+
+    for (const [key, val] of Object.entries(fields)) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = val;
+      form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
 
     errorMsg.style.display = 'none';
     document.getElementById('formContent').style.display = 'none';
