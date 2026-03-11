@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Robotics Club Fundraiser — Marugame Udon</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #161d2e;
+    --border: #1e2d45;
+    --accent: #f97316;
+    --accent2: #38bdf8;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --success: #22c55e;
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow blobs */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .blob2 {
+    position: fixed;
+    bottom: -150px; left: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(56,189,248,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 2.5rem;
+    animation: slideDown 0.6s ease both;
+  }
+
+  .club-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.25);
+    color: var(--accent2);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+  }
+
+  .club-tag::before {
+    content: '⬡';
+    font-size: 0.8rem;
+  }
+
+  h1 {
+    font-family: var(--mono);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 span {
+    color: var(--accent);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 300;
+  }
+
+  /* Event card */
+  .event-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    animation: slideDown 0.6s 0.1s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle at top right, rgba(249,115,22,0.06), transparent 70%);
+  }
+
+  .event-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .event-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+
+  .event-desc {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .event-meta {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .meta-item .icon { font-size: 1rem; }
+
+  .meta-item strong {
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  /* Form */
+  .form-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    animation: slideDown 0.6s 0.2s ease both;
+  }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field-group {
+    margin-bottom: 1.75rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  label .required {
+    color: var(--accent);
+    margin-left: 3px;
+  }
+
+  label .hint {
+    display: block;
+    font-weight: 300;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.1rem;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    padding: 0.65rem 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.1);
+  }
+
+  /* Day grid */
+  .day-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .day-option {
+    position: relative;
+  }
+
+  .day-option input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+
+  .day-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    user-select: none;
+    margin: 0;
+  }
+
+  .day-option label .day-name {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+    transition: color 0.18s;
+  }
+
+  .day-option label .day-date {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0.2rem 0 0;
+    transition: color 0.18s;
+  }
+
+  .day-option label .day-month {
+    font-size: 0.7rem;
+    color: var(--muted);
+    transition: color 0.18s;
+  }
+
+  .day-option.projected label {
+    border-color: rgba(249,115,22,0.4);
+    background: rgba(249,115,22,0.05);
+  }
+
+  .day-option.projected label .day-name {
+    color: var(--accent);
+  }
+
+  .proj-badge {
+    font-size: 0.55rem;
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: #000;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    margin-top: 0.3rem;
+  }
+
+  .day-option input:checked + label {
+    background: rgba(56,189,248,0.12);
+    border-color: var(--accent2);
+  }
+
+  .day-option input:checked + label .day-name,
+  .day-option input:checked + label .day-date,
+  .day-option input:checked + label .day-month {
+    color: var(--accent2);
+  }
+
+  .day-option.projected input:checked + label {
+    background: rgba(249,115,22,0.15);
+    border-color: var(--accent);
+  }
+
+  .day-option.projected input:checked + label .day-name,
+  .day-option.projected input:checked + label .day-date,
+  .day-option.projected input:checked + label .day-month {
+    color: var(--accent);
+  }
+
+  .day-option label:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  /* Attendance radio */
+  .radio-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .radio-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+
+  .radio-option {
+    position: relative;
+  }
+
+  .radio-option label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    transition: all 0.18s;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .radio-option input:checked + label {
+    background: rgba(34,197,94,0.1);
+    border-color: var(--success);
+    color: var(--success);
+  }
+
+  .radio-option label:hover {
+    border-color: #475569;
+  }
+
+  .radio-option .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--muted);
+    transition: all 0.18s;
+    flex-shrink: 0;
+  }
+
+  .radio-option input:checked + label .dot {
+    background: var(--success);
+    border-color: var(--success);
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+  }
+
+  .submit-btn:hover {
+    background: #ea6c0a;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(249,115,22,0.35);
+  }
+
+  .submit-btn:active { transform: translateY(0); }
+
+  /* Success state */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  .success-screen.visible { display: block; }
+
+  .success-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .success-screen h2 {
+    font-family: var(--mono);
+    font-size: 1.3rem;
+    color: var(--success);
+    margin-bottom: 0.5rem;
+  }
+
+  .success-screen p {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @media (max-width: 480px) {
+    .day-grid { grid-template-columns: repeat(3, 1fr); }
+    .form-card { padding: 1.25rem; }
+    .event-meta { flex-direction: column; gap: 0.6rem; }
+  }
+</style>
+</head>
+<body>
+<div class="blob2"></div>
+<div class="container">
+
+  <div class="header">
+    <div class="club-tag">Robotics Club — Fundraiser Sign-Up</div>
+    <h1>Support the <span>Team</span></h1>
+    <p class="subtitle">Help us pick the best date for our upcoming fundraiser dinner.</p>
+  </div>
+
+  <!-- Event Info Card -->
+  <div class="event-card">
+    <div class="event-label">// event details</div>
+    <div class="event-title">🍜 Fundraiser Night @ Marugame Udon</div>
+    <p class="event-desc">
+      Join the Robotics Club for a fundraiser dinner at <strong style="color:#fff">Marugame Udon</strong>! 
+      A portion of all sales during our event goes directly toward funding the team's equipment, 
+      competition fees, and materials for this season. Bring friends and family — the more, the better!
+    </p>
+    <div class="event-meta">
+      <div class="meta-item">
+        <span class="icon">📍</span>
+        <span>Marugame Udon</span>
+      </div>
+      <div class="meta-item">
+        <span class="icon">🎯</span>
+        <span>Projected: <strong>Wed, March 18</strong></span>
+      </div>
+      <div class="meta-item">
+        <span class="icon">🤖</span>
+        <span>Benefiting: <strong>Robotics Club</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="form-card" id="formCard">
+    <div id="formContent">
+
+      <!-- Personal Info -->
+      <div class="section-title">// your info</div>
+
+      <div class="field-group">
+        <label for="fullName">Full Name <span class="required">*</span></label>
+        <input type="text" id="fullName" placeholder="e.g. Alex Johnson" required />
+      </div>
+
+      <div class="field-group">
+        <label for="email">Email Address <span class="required">*</span>
+          <span class="hint">School email preferred</span>
+        </label>
+        <input type="email" id="email" placeholder="you@school.edu" required />
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Day Availability -->
+      <div class="section-title">// availability — select all days you're free</div>
+
+      <div class="field-group">
+        <label>Which days work for you?
+          <span class="hint">Pick as many as apply. Dates shown are from March 18 onward.</span>
+        </label>
+        <div class="day-grid" id="dayGrid">
+
+          <div class="day-option projected">
+            <input type="checkbox" id="mar18" name="days" value="Wed Mar 18" />
+            <label for="mar18">
+              <span class="day-name">Wed</span>
+              <span class="day-date">18</span>
+              <span class="day-month">March</span>
+              <span class="proj-badge">Projected</span>
+            </label>
+          </div>
+
+          <div class="day-option">
+            <input type="checkbox" id="mar19" name="days" value="Thu Mar 19" />
+            <label for="mar19">
+              <span class="day-name">Thu</span>
+              <span class="day-date">19</span>
+              <span class="day-month">March</span>
+            </label>
+          </div>
+
+          <div class="day-option">
+            <input type="checkbox" id="mar20" name="days" value="Fri Mar 20" />
+            <label for="mar20">
+              <span class="day-name">Fri</span>
+              <span class="day-date">20</span>
+              <span class="day-month">March</span>
+            </label>
+          </div>
+
+          <div class="day-option">
+            <input type="checkbox" id="mar21" name="days" value="Sat Mar 21" />
+            <label for="mar21">
+              <span class="day-name">Sat</span>
+              <span class="day-date">21</span>
+              <span class="day-month">March</span>
+            </label>
+          </div>
+
+          <div class="day-option">
+            <input type="checkbox" id="mar22" name="days" value="Sun Mar 22" />
+            <label for="mar22">
+              <span class="day-name">Sun</span>
+              <span class="day-date">22</span>
+              <span class="day-month">March</span>
+            </label>
+          </div>
+
+          <div class="day-option">
+            <input type="checkbox" id="mar25" name="days" value="Wed Mar 25" />
+            <label for="mar25">
+              <span class="day-name">Wed</span>
+              <span class="day-date">25</span>
+              <span class="day-month">March</span>
+            </label>
+          </div>
+
+          <div class="day-option">
+            <input type="checkbox" id="mar26" name="days" value="Thu Mar 26" />
+            <label for="mar26">
+              <span class="day-name">Thu</span>
+              <span class="day-date">26</span>
+              <span class="day-month">March</span>
+            </label>
+          </div>
+
+          <div class="day-option">
+            <input type="checkbox" id="mar27" name="days" value="Fri Mar 27" />
+            <label for="mar27">
+              <span class="day-name">Fri</span>
+              <span class="day-date">27</span>
+              <span class="day-month">March</span>
+            </label>
+          </div>
+
+          <div class="day-option">
+            <input type="checkbox" id="mar28" name="days" value="Sat Mar 28" />
+            <label for="mar28">
+              <span class="day-name">Sat</span>
+              <span class="day-date">28</span>
+              <span class="day-month">March</span>
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Attendance Commitment -->
+      <div class="section-title">// attendance</div>
+
+      <div class="field-group">
+        <label>Will you attend the fundraiser? <span class="required">*</span>
+          <span class="hint">Based on your availability above.</span>
+        </label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="att-yes" name="attendance" value="yes" />
+            <label for="att-yes"><span class="dot"></span> Yes, I'll be there!</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="att-maybe" name="attendance" value="maybe" />
+            <label for="att-maybe"><span class="dot"></span> Maybe / Depends on date</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="att-no" name="attendance" value="no" />
+            <label for="att-no"><span class="dot"></span> Can't make it</label>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://docs.google.com/forms/d/1hvli9tZ4TfzYo-J9_1HTzQSVt4398kCfPhSok0YIxpo/viewform" target="_blank" style="text-decoration:none;">
+        <button class="submit-btn">Fill Out the Form →</button>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function submitForm() {
+    const name = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const attendance = document.querySelector('input[name="attendance"]:checked');
+    const errorMsg = document.getElementById('errorMsg');
+
+    if (!name) { showError('Please enter your full name.'); return; }
+    if (!email || !email.includes('@')) { showError('Please enter a valid email address.'); return; }
+    if (!attendance) { showError('Please indicate if you can attend.'); return; }
+
+    errorMsg.style.display = 'none';
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = '⚠ ' + msg;
+    el.style.display = 'block';
+  }
+</script>
+</body>
+</html>
