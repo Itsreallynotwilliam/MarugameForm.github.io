@@ -560,7 +560,7 @@
         <div class="day-grid" id="dayGrid">
 
           <div class="day-option projected">
-            <input type="checkbox" id="mar18" name="days" value="Wed Mar 18" />
+            <input type="checkbox" id="mar18" name="days" value="3/18 Wednesday" />
             <label for="mar18">
               <span class="day-name">Wed</span>
               <span class="day-date">18</span>
@@ -570,7 +570,7 @@
           </div>
 
           <div class="day-option">
-            <input type="checkbox" id="mar19" name="days" value="Thu Mar 19" />
+            <input type="checkbox" id="mar19" name="days" value="3/19 Thursday" />
             <label for="mar19">
               <span class="day-name">Thu</span>
               <span class="day-date">19</span>
@@ -579,7 +579,7 @@
           </div>
 
           <div class="day-option">
-            <input type="checkbox" id="mar20" name="days" value="Fri Mar 20" />
+            <input type="checkbox" id="mar20" name="days" value="3/20 Friday" />
             <label for="mar20">
               <span class="day-name">Fri</span>
               <span class="day-date">20</span>
@@ -588,7 +588,7 @@
           </div>
 
           <div class="day-option">
-            <input type="checkbox" id="mar21" name="days" value="Sat Mar 21" />
+            <input type="checkbox" id="mar21" name="days" value="3/21 Saturday" />
             <label for="mar21">
               <span class="day-name">Sat</span>
               <span class="day-date">21</span>
@@ -597,7 +597,7 @@
           </div>
 
           <div class="day-option">
-            <input type="checkbox" id="mar22" name="days" value="Sun Mar 22" />
+            <input type="checkbox" id="mar22" name="days" value="3/22 Sunday" />
             <label for="mar22">
               <span class="day-name">Sun</span>
               <span class="day-date">22</span>
@@ -606,7 +606,7 @@
           </div>
 
           <div class="day-option">
-            <input type="checkbox" id="mar25" name="days" value="Wed Mar 25" />
+            <input type="checkbox" id="mar25" name="days" value="3/25 Wednesday" />
             <label for="mar25">
               <span class="day-name">Wed</span>
               <span class="day-date">25</span>
@@ -615,7 +615,7 @@
           </div>
 
           <div class="day-option">
-            <input type="checkbox" id="mar26" name="days" value="Thu Mar 26" />
+            <input type="checkbox" id="mar26" name="days" value="3/26 Thursday" />
             <label for="mar26">
               <span class="day-name">Thu</span>
               <span class="day-date">26</span>
@@ -624,7 +624,7 @@
           </div>
 
           <div class="day-option">
-            <input type="checkbox" id="mar27" name="days" value="Fri Mar 27" />
+            <input type="checkbox" id="mar27" name="days" value="3/27 Friday" />
             <label for="mar27">
               <span class="day-name">Fri</span>
               <span class="day-date">27</span>
@@ -633,7 +633,7 @@
           </div>
 
           <div class="day-option">
-            <input type="checkbox" id="mar28" name="days" value="Sat Mar 28" />
+            <input type="checkbox" id="mar28" name="days" value="3/28 Saturday" />
             <label for="mar28">
               <span class="day-name">Sat</span>
               <span class="day-date">28</span>
@@ -655,21 +655,58 @@
         </label>
         <div class="radio-group">
           <div class="radio-option">
-            <input type="radio" id="att-yes" name="attendance" value="yes" />
+            <input type="radio" id="att-yes" name="attendance" value="Yes" />
             <label for="att-yes"><span class="dot"></span> Yes, I'll be there!</label>
           </div>
           <div class="radio-option">
-            <input type="radio" id="att-maybe" name="attendance" value="maybe" />
+            <input type="radio" id="att-maybe" name="attendance" value="Maybe" />
             <label for="att-maybe"><span class="dot"></span> Maybe / Depends on date</label>
           </div>
           <div class="radio-option">
-            <input type="radio" id="att-no" name="attendance" value="no" />
+            <input type="radio" id="att-no" name="attendance" value="No" />
             <label for="att-no"><span class="dot"></span> Can't make it</label>
           </div>
         </div>
       </div>
 
-      <div id="errorMsg" style="display:none; color:#f87171; font-size:0.82rem; font-family:var(--mono); margin-bottom:1rem;"></div>
+      <hr class="divider" />
+
+      <!-- Extra Questions -->
+      <div class="section-title">// additional info</div>
+
+      <div class="field-group">
+        <label for="otherDates">Any other dates that work for you?
+          <span class="hint">Optional — type any dates not listed above.</span>
+        </label>
+        <input type="text" id="otherDates" placeholder="e.g. 4/5, 4/12..." />
+      </div>
+
+      <div class="field-group">
+        <label>Would you bring friends or family to support the fundraiser?</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="bring-yes" name="bringOthers" value="Yes" />
+            <label for="bring-yes"><span class="dot"></span> Yes</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="bring-no" name="bringOthers" value="No" />
+            <label for="bring-no"><span class="dot"></span> No</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="bring-ask" name="bringOthers" value="Will ask" />
+            <label for="bring-ask"><span class="dot"></span> Will ask</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="comments">Comments or Questions?
+          <span class="hint">Optional</span>
+        </label>
+        <input type="text" id="comments" placeholder="Anything you want us to know..." />
+      </div>
+
+            <div id="errorMsg" style="display:none; color:#f87171; font-size:0.82rem; font-family:var(--mono); margin-bottom:1rem;"></div>
 
       <button class="submit-btn" onclick="submitForm()">Submit Response →</button>
     </div>
@@ -692,6 +729,9 @@
     const attendance = document.querySelector('input[name="attendance"]:checked');
     const errorMsg = document.getElementById('errorMsg');
     const days = [...document.querySelectorAll('input[name="days"]:checked')].map(d => d.value);
+    const otherDates = document.getElementById('otherDates').value.trim();
+    const bringOthers = document.querySelector('input[name="bringOthers"]:checked');
+    const comments = document.getElementById('comments').value.trim();
 
     if (!name) { showError('Please enter your full name.'); return; }
     if (!email || !email.includes('@')) { showError('Please enter a valid email address.'); return; }
@@ -729,6 +769,18 @@
       input.name = key;
       input.value = val;
       form.appendChild(input);
+    }
+
+    // Extra Google Form fields
+    const extraData = {
+      'entry.1237995777': otherDates,
+      'entry.1968777100': bringOthers ? bringOthers.value : '',
+      'entry.1244230343': comments,
+    };
+    for (const [key, val] of Object.entries(extraData)) {
+      const inp = document.createElement('input');
+      inp.type = 'hidden'; inp.name = key; inp.value = val;
+      form.appendChild(inp);
     }
 
     document.body.appendChild(form);
